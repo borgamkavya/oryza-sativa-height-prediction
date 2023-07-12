@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oryza Sativa Height Prediction - About</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #d1ecf1;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        
+        .nav-container {
+            background-color: #336699;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container h1 {
+            text-align: center;
+            font-size: 28px;
+            margin: 0 100px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-top: 10px; 
+        }
+        
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            font-size: 15px;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links li {
+            margin-left: 10px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .csv-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color:#f8f9fa;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .csv-container:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .csv-container h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .file-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .open-file-btn,
+        .download-link {
+            text-decoration: none;
+            color: #fff; /* Change button text color to white */
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border: 1px solid #28a745;
+            background-color: #28a745; /* Change button background color to light green */
+        }
+        
+        .open-file-btn:hover,
+        .download-link:hover {
+            background-color: #155724; /* Change button hover background color to darker green */
+        }
+        
+        .file-content {
+            display: none;
+            max-height: 300px;
+            overflow: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            margin-top: 10px;
+        }
+        
+        .file-content.open {
+            display: block;
+        }
+        
+        .close-file-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border: none;
+            background-color: transparent;
+            color: #28a745;
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-file-btn:hover {
+            color: #155724;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            text-align: left;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Add links to navigate to other pages -->
+    <div class="nav-container">
+        <h1>Unleash Rice Subpopulation Predictions-Welcome!</h1>
+        <ul class="nav-links">
+            <li><a class="nav-link" href="/">About Website</a></li>
+            <li><a class="nav-link" href="/predict">Predict Height</a></li>
+            <li><a class="nav-link" href="/about">Go to files</a></li>
+        </ul>
+    </div>
+
+    <!-- Add container for the first CSV file -->
+    <div class="csv-container" onclick="toggleFileContent(this)">
+        <h2>Genotypic File</h2>
+        <div class="file-actions">
+            <a class="download-link" href="/static/imputed(csv).csv" download>Download</a>
+            <button class="open-file-btn">Open</button>
+        </div>
+        <div class="file-content">
+            <table>
+                {% for row in file1_content %}
+                    <tr>
+                        {% for cell in row %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <!-- Add container for the second CSV file -->
+    <div class="csv-container" onclick="toggleFileContent(this)">
+        <h2>Phenotype File</h2>
+        <div class="file-actions">
+            <a class="download-link" href="/static/phenotype(csv).csv" download>Download</a>
+            <button class="open-file-btn">Open</button>
+        </div>
+        <div class="file-content">
+            <table>
+                {% for row in file2_content %}
+                    <tr>
+                        {% for cell in row %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="csv-container" onclick="toggleFileContent(this)">
+        <h2>Phylogenetic Tree</h2>
+        <div class="file-actions">
+            <a class="download-link" href="/static/phylo_tree.txt" download>Download</a>
+            <button class="open-file-btn">Open</button>
+        </div>
+        <div class="file-content">
+            <pre>
+                <!-- Content of the text file -->
+                {{ file_content }}
+            </pre>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript to toggle file content visibility -->
+    <script>
+        function toggleFileContent(container) {
+            var fileContent = container.querySelector('.file-content');
+            var openBtn = container.querySelector('.open-file-btn');
+
+            if (fileContent.classList.contains('open')) {
+                fileContent.classList.remove('open');
+                openBtn.textContent = 'Open';
+            } else {
+                fileContent.classList.add('open');
+                openBtn.textContent = 'Close';
+            }
+        }
+    </script>
+</body>
+</html>
